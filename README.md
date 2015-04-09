@@ -1,8 +1,6 @@
 # Mongoid::Archivable
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/mongoid/archivable`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Moves Mongoid documents to an archive instead of destroying them.
 
 ## Installation
 
@@ -22,7 +20,13 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+In any Mongoid document, do this:
+
+```
+include Mongoid::Archivable
+```
+
+Now a `destroy` of a document will move the document to an Archive collection.
 
 ## Development
 

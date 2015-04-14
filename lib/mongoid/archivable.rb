@@ -5,10 +5,22 @@ module Mongoid
 
     extend ActiveSupport::Concern
 
+    module Restoration
+      # Restores the archived document to its former glory.
+      def restore
+        document = self.class.to_s.split('::').first # Turns User::Archive into User.
+
+        self.class.const_get(document).create(attributes.except("_id", "original_id", "archived_at")) do |doc|
+          doc.id = self.original_id
+        end
+      end
+    end
+
     included do
       self.const_set("Archive", Class.new)
       self.const_get("Archive").send(:include, ::Mongoid::Document).class_eval do
         include Mongoid::Attributes::Dynamic
+        include Mongoid::Archivable::Restoration
         field :archived_at, type: Time
         field :original_id, type: String
       end

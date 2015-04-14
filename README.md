@@ -30,6 +30,8 @@ include Mongoid::Archivable
 
 Now a `destroy` of a document will move the document to an Archive collection, namespaced under the document you're destroying.
 
+You can restore an archive as well. Send the `.restore` message to it. For now the archived document is retained, but that might change in the future.
+
 ## Example
 
 ```
@@ -37,6 +39,12 @@ user = User.create! name: "Example User"
 user.destroy
 
 User.count # => 0
+User::Archive.count # => 1
+
+archived_user = User::Archive.last
+archived_user.restore
+
+User.count # => 1
 User::Archive.count # => 1
 ```
 

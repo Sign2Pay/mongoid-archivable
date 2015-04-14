@@ -1,0 +1,6 @@
+test:
+  sessions:
+    default:
+      database: mongoid-archivable
+      hosts:
+        - localhost:27017

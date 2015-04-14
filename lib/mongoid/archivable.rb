@@ -18,7 +18,8 @@ module Mongoid
 
     included do
       self.const_set("Archive", Class.new)
-      self.const_get("Archive").send(:include, ::Mongoid::Document).class_eval do
+      self.const_get("Archive").class_eval do
+        include Mongoid::Document
         include Mongoid::Attributes::Dynamic
         include Mongoid::Archivable::Restoration
         field :archived_at, type: Time

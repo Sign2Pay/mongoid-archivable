@@ -1,4 +1,4 @@
-require "mongoid/archivable/version"
+require 'active_support/concern'
 
 module Mongoid
   module Archivable

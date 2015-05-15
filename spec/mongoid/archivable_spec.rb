@@ -6,10 +6,6 @@ describe Mongoid::Archivable do
     expect(Mongoid::Archivable::VERSION).not_to be nil
   end
 
-  before do
-    Mongoid.purge!
-  end
-
   let(:user) { User.create! }
   let(:archive_user) { User::Archive.first }
 
@@ -34,17 +30,4 @@ describe Mongoid::Archivable do
     expect(archive_user.original_id).to be_present
   end
 
-  it "allows the document to be restored" do
-    user.destroy
-    expect {
-      archive_user.restore
-    }.to change(User, :count).by(1)
-  end
-
-  it "retains the original id after restore" do
-    original_id = user.id
-    user.destroy
-    archive_user.restore
-    expect(User.last.id).to eq(original_id)
-  end
 end

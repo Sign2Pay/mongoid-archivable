@@ -21,8 +21,17 @@ describe Mongoid::Archivable, "restore" do
     expect(User.last.id).to eq(original_id)
   end
 
-  describe "deeply nested" do
+  describe 'STI classes' do
+    let(:user) { UserSubclass.create! }
+    let(:archive_user) { UserSubclass::Archive.first }
 
+    it 'works' do
+      archive_user.restore
+      expect(UserSubclass.last.id).to eq(original_id)
+    end
+  end
+
+  describe "deeply nested" do
     let(:user) { Deeply::Nested::User.create! }
     let(:archive_user) { Deeply::Nested::User::Archive.first }
 

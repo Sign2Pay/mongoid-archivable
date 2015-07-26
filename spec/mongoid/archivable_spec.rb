@@ -30,4 +30,9 @@ describe Mongoid::Archivable do
     expect(archive_user.original_id).to be_present
   end
 
+  it "stores the original type" do
+    user.destroy
+    expect(archive_user.original_type).to be_present
+  end
+
 end

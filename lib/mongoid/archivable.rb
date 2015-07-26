@@ -8,9 +8,7 @@ module Mongoid
     module Restoration
       # Restores the archived document to its former glory.
       def restore
-        document = self.class.to_s.gsub(/::Archive\z/, '') # Turns User::Archive into User.
-
-        self.class.const_get(document).create(attributes.except("_id", "original_id", "archived_at")) do |doc|
+        self.original_type.constantize.create(attributes.except("_id", "original_id", "original_type", "archived_at")) do |doc|
           doc.id = self.original_id
         end
       end
@@ -24,6 +22,7 @@ module Mongoid
         include Mongoid::Archivable::Restoration
         field :archived_at, type: Time
         field :original_id, type: String
+        field :original_type, type: String
       end
 
       before_destroy :archive
@@ -32,8 +31,9 @@ module Mongoid
     private
 
     def archive
-      self.class.const_get("Archive").create(attributes.except("_id")) do |doc|
+      self.class.const_get("Archive").create(attributes.except("_id", "_type")) do |doc|
         doc.original_id = self.id
+        doc.original_type = self.class.to_s
         doc.archived_at = Time.now.utc
       end
     end

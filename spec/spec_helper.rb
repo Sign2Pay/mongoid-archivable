@@ -16,6 +16,9 @@ class User
   include Mongoid::Archivable
 end
 
+class UserSubclass < User
+end
+
 module Deeply
   module Nested
     class User

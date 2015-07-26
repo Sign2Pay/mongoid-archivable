@@ -8,7 +8,11 @@ module Mongoid
     module Restoration
       # Restores the archived document to its former glory.
       def restore
-        self.original_type.constantize.create(attributes.except("_id", "original_id", "original_type", "archived_at")) do |doc|
+        original_document.save
+      end
+
+      def original_document
+        self.original_type.constantize.new(attributes.except("_id", "original_id", "original_type", "archived_at")) do |doc|
           doc.id = self.original_id
         end
       end

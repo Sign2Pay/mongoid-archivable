@@ -19,6 +19,9 @@ module Mongoid
 
       private
 
+      # first, try to retrieve the original_class from the stored :original_type
+      # since previous versions of this gem did not use this field, fall back 
+      # to previous method -- removing the '::Archive' from archive class name
       def original_class_name
         return self.original_type if self.respond_to?(:original_type) && self.original_type.present?
         self.class.to_s.gsub(/::Archive\z/, '')

@@ -16,6 +16,13 @@ module Mongoid
           doc.id = self.original_id
         end
       end
+
+      private
+
+      def original_class_name
+        return self.original_type if self.respond_to?(:original_type) && self.original_type.present?
+        self.class.to_s.gsub(/::Archive\z/, '')
+      end
     end
 
     included do

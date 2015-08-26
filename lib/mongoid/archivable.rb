@@ -8,7 +8,8 @@ module Mongoid
     module Restoration
       # Restores the archived document to its former glory.
       def restore
-        original_document.tap(&:save)
+        original_document.save
+        original_document
       end
 
       def original_document

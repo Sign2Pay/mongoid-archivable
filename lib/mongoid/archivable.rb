@@ -12,19 +12,20 @@ module Mongoid
       end
 
       def original_document
-        self.original_type.constantize.new(attributes.except("_id", "original_id", "original_type", "archived_at")) do |doc|
+        self.original_class_name.constantize.new(attributes.except("_id", "original_id", "original_type", "archived_at")) do |doc|
           doc.id = self.original_id
         end
       end
 
-      private
-
       # first, try to retrieve the original_class from the stored :original_type
-      # since previous versions of this gem did not use this field, fall back 
+      # since previous versions of this gem did not use this field, fall back
       # to previous method -- removing the '::Archive' from archive class name
       def original_class_name
-        return self.original_type if self.respond_to?(:original_type) && self.original_type.present?
-        self.class.to_s.gsub(/::Archive\z/, '')
+        if self.respond_to?(:original_type) && self.original_type.present? # gem version >= 1.3.0, stored as a field.
+          self.original_type
+        else
+          self.class.to_s.gsub(/::Archive\z/, '') # gem version < 1.3.0, turns "User::Archive" into "User".
+        end
       end
     end
 

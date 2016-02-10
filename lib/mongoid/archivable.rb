@@ -12,7 +12,7 @@ module Mongoid
       end
 
       def original_document
-        excluded_attributes = %i(_id original_id original_type archived_at)
+        excluded_attributes = %w(_id original_id original_type archived_at)
         original_class_name.constantize.new(attributes.except(*excluded_attributes)) do |doc|
           doc.id = original_id
         end
@@ -36,7 +36,7 @@ module Mongoid
         include Mongoid::Document
         include Mongoid::Attributes::Dynamic
         include Mongoid::Archivable::Restoration
-        
+
         field :archived_at, type: Time
         field :original_id, type: String
         field :original_type, type: String

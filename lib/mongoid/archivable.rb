@@ -12,9 +12,11 @@ module Mongoid
       end
 
       def original_document
-        excluded_attributes = %w(_id original_id original_type archived_at)
-        original_class_name.constantize.new(attributes.except(*excluded_attributes)) do |doc|
-          doc.id = original_id
+        @original_document ||= begin
+          excluded_attributes = %w(_id original_id original_type archived_at)
+          original_class_name.constantize.new(attributes.except(*excluded_attributes)) do |doc|
+            doc.id = original_id
+          end
         end
       end
 

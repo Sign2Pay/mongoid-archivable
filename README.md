@@ -24,7 +24,7 @@ Or install it yourself as:
 
 In any Mongoid document, do this:
 
-```
+```ruby
 include Mongoid::Archivable
 ```
 
@@ -34,7 +34,7 @@ You can restore an archive as well. Send the `.restore` message to it. For now t
 
 ## Example
 
-```
+```ruby
 user = User.create! name: "Example User"
 user.destroy
 

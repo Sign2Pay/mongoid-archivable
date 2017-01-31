@@ -14,6 +14,8 @@ end
 class User
   include Mongoid::Document
   include Mongoid::Archivable
+
+  field :localized_field, type: String, localize: true
 end
 
 class UserSubclass < User

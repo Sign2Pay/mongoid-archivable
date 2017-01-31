@@ -14,7 +14,17 @@ module Mongoid
       def original_document
         @original_document ||= begin
           excluded_attributes = %w(_id original_id original_type archived_at)
-          original_class_name.constantize.new(attributes.except(*excluded_attributes)) do |doc|
+          original_class = original_class_name.constantize
+          localized_fields = original_class.fields.values.select(&:localized?)
+          localized_field_names = localized_fields.map(&:name)
+
+          # makes sure that all localized fields are assigned via their *_translations writer
+          attrs = attributes.except(*excluded_attributes).map do |name, value|
+            name = "#{name}_translations" if localized_field_names.include?(name.to_s)
+            [name, value]
+          end.to_h
+
+          original_class.new(attrs) do |doc|
             doc.id = original_id
           end
         end

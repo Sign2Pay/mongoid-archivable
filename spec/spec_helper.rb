@@ -16,6 +16,9 @@ class User
   include Mongoid::Archivable
 
   field :localized_field, type: String, localize: true
+
+  embeds_one :document_embedded_in_user, class_name: 'DocumentEmbeddedInUser'
+  embeds_many :documents_embedded_in_user, class_name: 'DocumentEmbeddedInUser'
 end
 
 class UserSubclass < User
@@ -28,4 +31,9 @@ module Deeply
       include Mongoid::Archivable
     end
   end
+end
+
+class DocumentEmbeddedInUser
+  include Mongoid::Document
+  field :localized_field, type: String, localize: true
 end

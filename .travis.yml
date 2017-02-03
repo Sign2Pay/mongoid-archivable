@@ -9,6 +9,7 @@ services:
 notifications:
   email:
     recipients:
+      - joost@spacebabies.nl
       - tomas.celizna@gmail.com
     on_failure: change
     on_success: never

@@ -1,4 +1,5 @@
 require 'active_support/concern'
+require 'mongoid/archivable/process_localized_fields'
 
 module Mongoid
   module Archivable

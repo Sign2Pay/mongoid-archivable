@@ -1,0 +1,15 @@
+language: ruby
+script: 'bundle exec rake'
+sudo: false
+rvm:
+  - 2.2.5
+services:
+  - mongodb
+
+notifications:
+  email:
+    recipients:
+      - joost@spacebabies.nl
+      - tomas.celizna@gmail.com
+    on_failure: change
+    on_success: never

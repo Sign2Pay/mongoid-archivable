@@ -14,7 +14,10 @@ module Mongoid
       def original_document
         @original_document ||= begin
           excluded_attributes = %w(_id original_id original_type archived_at)
-          original_class_name.constantize.new(attributes.except(*excluded_attributes)) do |doc|
+          attrs = attributes.except(*excluded_attributes)
+          attrs = Mongoid::Archivable::ProcessLocalizedFields.call(original_class, attrs)
+
+          original_class.new(attrs) do |doc|
             doc.id = original_id
           end
         end
@@ -29,6 +32,10 @@ module Mongoid
         else
           self.class.to_s.gsub(/::Archive\z/, '') # gem version < 1.3.0, turns "User::Archive" into "User".
         end
+      end
+
+      def original_class
+        original_class_name.constantize
       end
     end
 

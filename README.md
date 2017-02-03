@@ -1,5 +1,7 @@
 # Mongoid::Archivable
 
+[![Build Status](https://travis-ci.org/Sign2Pay/mongoid-archivable.svg)](https://travis-ci.org/Sign2Pay/mongoid-archivable) [![Gem Version](https://badge.fury.io/rb/mongoid-archivable.svg)](http://badge.fury.io/rb/mongoid-archivable)
+
 Moves Mongoid documents to an archive instead of destroying them.
 
 ## Installation

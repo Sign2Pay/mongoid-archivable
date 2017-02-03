@@ -2,8 +2,6 @@
 
 Moves Mongoid documents to an archive instead of destroying them.
 
-[ ![Codeship Status for Sign2Pay/mongoid-archivable](https://codeship.com/projects/a6d39180-c4c7-0132-bf85-1a3509ce6b71/status?branch=master)](https://codeship.com/projects/74192)
-
 ## Installation
 
 Add this line to your application's Gemfile:

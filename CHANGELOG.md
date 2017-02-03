@@ -1,4 +1,4 @@
-# 1.5.1
+# 1.5.2
 
 * correctly restore localized fields on self and embedded documents
 

@@ -40,6 +40,17 @@ module Mongoid
       end
     end
 
+    class << self
+      def config
+        @config ||= Config.new
+        @config
+      end
+
+      def configure(&proc)
+        yield config
+      end
+    end
+
     included do
       const_set('Archive', Class.new)
       const_get('Archive').class_eval do
@@ -47,9 +58,13 @@ module Mongoid
         include Mongoid::Attributes::Dynamic
         include Mongoid::Archivable::Restoration
 
+        store_in database: ->{ Mongoid::Archivable.config.get_database }, 
+                 client: ->{ Mongoid::Archivable.config.get_client }
+
         field :archived_at, type: Time
         field :original_id, type: String
         field :original_type, type: String
+        
       end
 
       before_destroy :archive

@@ -5,6 +5,7 @@ describe Mongoid::Archivable::ProcessLocalizedFields, 'localized fields' do
   let(:archive_user) { User::Archive.first }
 
   before do
+    User::Archive.destroy_all
     user.destroy
   end
 

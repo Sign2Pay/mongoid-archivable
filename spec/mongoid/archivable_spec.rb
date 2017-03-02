@@ -5,8 +5,16 @@ describe Mongoid::Archivable do
     expect(Mongoid::Archivable::VERSION).not_to be nil
   end
 
+  it 'has a config' do
+    expect(defined?(Mongoid::Archivable::Config)).not_to be nil
+  end
+
   let(:user) { User.create! }
   let(:archive_user) { User::Archive.first }
+
+  before do
+    User::Archive.destroy_all
+  end
 
   it 'does delete a document' do
     user.destroy

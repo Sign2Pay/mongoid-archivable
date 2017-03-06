@@ -48,6 +48,50 @@ User.count # => 1
 User::Archive.count # => 1
 ```
 
+## Standalone Storage
+
+By default, the archived documents will be stored in primary client and database. If you want to use different database or client for all archived documents, you can create the following middleware:
+
+```ruby
+# Rails : config/initializers/mongoid_archivable.rb
+# Ruby : config/mongoid_archivable.rb
+
+Mongoid::Archivable.configure do |config|
+  config.database = "archives"
+  config.client = "secondary"
+end
+```
+
+But if you only want to use different database or client in spesific Mongoid document, you can use this approach:
+
+```ruby
+class User
+  include Mongoid::Document
+  include Mongoid::Archive
+  archive_in database: 'achives', client: 'secondary'
+end
+```
+
+In your mongoid.yml will show like this:
+
+```yaml
+development:
+  clients:
+    default:
+      database: project_development
+      hosts:
+        - localhost:27017
+      options:
+        <<: *client_options
+    secondary:
+      database: archives
+      hosts:
+        - localhost:27018
+      options:
+        <<: *client_options
+```
+
+
 ## Development
 
 Please report any issues to the [GitHub issue tracker](https://github.com/Sign2Pay/mongoid-archivable/issues).

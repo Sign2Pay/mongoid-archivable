@@ -6,6 +6,8 @@ describe Mongoid::Archivable, 'restore' do
   let(:original_id) { user.id }
 
   before do
+    User::Archive.destroy_all
+    Deeply::Nested::User::Archive.destroy_all
     user.destroy
   end
 

@@ -1,55 +1,41 @@
 require 'active_support/concern'
 require 'mongoid/archivable/process_localized_fields'
+require 'mongoid/archivable/restoration'
+require 'mongoid/archivable/config'
+require 'mongoid/archivable/gluten'
+require 'mongoid/archivable/depot'
 
 module Mongoid
   module Archivable
     extend ActiveSupport::Concern
 
-    module Restoration
-      # Restores the archived document to its former glory.
-      def restore
-        original_document.save
-        original_document
+    class << self
+      def config
+        @config ||= Config.new
+        @config
       end
 
-      def original_document
-        @original_document ||= begin
-          excluded_attributes = %w(_id original_id original_type archived_at)
-          attrs = attributes.except(*excluded_attributes)
-          attrs = Mongoid::Archivable::ProcessLocalizedFields.call(original_class, attrs)
-
-          original_class.new(attrs) do |doc|
-            doc.id = original_id
-          end
-        end
-      end
-
-      # first, try to retrieve the original_class from the stored :original_type
-      # since previous versions of this gem did not use this field, fall back
-      # to previous method -- removing the '::Archive' from archive class name
-      def original_class_name
-        if respond_to?(:original_type) && original_type.present? # gem version >= 1.3.0, stored as a field.
-          original_type
-        else
-          self.class.to_s.gsub(/::Archive\z/, '') # gem version < 1.3.0, turns "User::Archive" into "User".
-        end
-      end
-
-      def original_class
-        original_class_name.constantize
+      def configure(&proc)
+        yield config
       end
     end
 
     included do
+      mattr_accessor :archive_storage
+      include Mongoid::Archivable::Gluten
+
       const_set('Archive', Class.new)
       const_get('Archive').class_eval do
         include Mongoid::Document
         include Mongoid::Attributes::Dynamic
         include Mongoid::Archivable::Restoration
+        include Mongoid::Archivable::Depot
+        store_in database: ->{ archive_database_name }, client: ->{ archive_client_name }
 
         field :archived_at, type: Time
         field :original_id, type: String
         field :original_type, type: String
+        
       end
 
       before_destroy :archive

@@ -24,11 +24,25 @@ end
 class UserSubclass < User
 end
 
+class UserTenant < User
+  archive_in database: 'archives', clients: 'secondary'
+end
+
 module Deeply
   module Nested
     class User
       include Mongoid::Document
       include Mongoid::Archivable
+    end
+  end
+end
+
+module Deeply
+  module Nested
+    class UserTenant
+      include Mongoid::Document
+      include Mongoid::Archivable
+      archive_in database: 'archives', clients: 'secondary'
     end
   end
 end

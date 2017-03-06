@@ -4,3 +4,7 @@ test:
       database: mongoid-archivable
       hosts:
         - localhost:27017
+    secondary:
+      database: archives
+      hosts:
+        - localhost:27017

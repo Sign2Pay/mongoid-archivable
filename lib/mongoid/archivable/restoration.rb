@@ -3,7 +3,13 @@ module Mongoid
     module Restoration
       # Restores the archived document to its former glory.
       def restore
-        original_document.save
+        if original_document.save
+          original_document
+        end
+      end
+
+      def restore!
+        original_document.save!
         original_document
       end
 

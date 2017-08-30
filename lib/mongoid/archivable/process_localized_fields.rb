@@ -17,15 +17,16 @@ module Mongoid
 
         embedded_relations.each do |relation|
           relation_name = relation.name.to_s
-          relation_class = relation.class_name.constantize
 
           # convert embeds_many
           if attrs[relation_name].is_a?(Array)
             attrs[relation_name] = attrs[relation_name].map do |att|
+              relation_class = att.fetch('_type', relation.class_name).constantize
               ProcessLocalizedFields.call(relation_class, att)
             end
           # convert embeds_one
           elsif att = attrs[relation_name]
+            relation_class = att.fetch('_type', relation.class_name).constantize
             attrs[relation_name] = ProcessLocalizedFields.call(relation_class, att)
           end
         end

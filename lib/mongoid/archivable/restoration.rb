@@ -8,6 +8,11 @@ module Mongoid
         end
       end
 
+      def restore!
+        original_document.save!
+        original_document
+      end
+
       def original_document
         @original_document ||= begin
           excluded_attributes = %w(_id original_id original_type archived_at)

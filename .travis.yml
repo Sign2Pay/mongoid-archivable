@@ -15,13 +15,10 @@ notifications:
     on_success: never
 
 matrix:
-  allow_failures:
-    - rvm: ruby-head
-  matrix:
-    include:
-      - rvm: 2.3.3
-        env: MONGOID_VERSION=5
-      - rvm: 2.3.3
-        env: MONGOID_VERSION=6
-      - rvm: 2.5.1
-        env: MONGOID_VERSION=7
+  include:
+    - rvm: 2.3.3
+      env: MONGOID_VERSION=5
+    - rvm: 2.3.3
+      env: MONGOID_VERSION=6
+    - rvm: 2.5.0
+      env: MONGOID_VERSION=7

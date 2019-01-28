@@ -21,13 +21,13 @@ module Mongoid
           # convert embeds_many
           if attrs[relation_name].is_a?(Array)
             attrs[relation_name] = attrs[relation_name].map do |att|
-              relation_class = att.fetch('_type', relation.class_name).constantize
-              ProcessLocalizedFields.call(relation_class, att)
+              relation_class = Hash[att].fetch('_type', relation.class_name).constantize
+              ProcessLocalizedFields.call(relation_class, Hash[att])
             end
           # convert embeds_one
           elsif att = attrs[relation_name]
-            relation_class = att.fetch('_type', relation.class_name).constantize
-            attrs[relation_name] = ProcessLocalizedFields.call(relation_class, att)
+            relation_class = Hash[att].fetch('_type', relation.class_name).constantize
+            attrs[relation_name] = ProcessLocalizedFields.call(relation_class, Hash[att])
           end
         end
 

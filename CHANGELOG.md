@@ -1,3 +1,7 @@
+# 1.7.1
+
+* FIX: BSON 4+ returns BSON::Document instead of Hash, [#15](https://github.com/Sign2Pay/mongoid-archivable/pull/15)
+
 # 1.7.0
 
 * `restore` returns nil if save unsuccessful, [#14](https://github.com/Sign2Pay/mongoid-archivable/pull/14)

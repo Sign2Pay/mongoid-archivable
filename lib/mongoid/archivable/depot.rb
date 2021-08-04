@@ -39,9 +39,9 @@ module Mongoid
 
         def parent_class
           if ActiveSupport::VERSION::MAJOR >= 6
-            model_class.module_parent
+            module_parent
           else
-            model_class.parent
+            parent
           end
         end
       end

@@ -1,6 +1,6 @@
 # Mongoid::Archivable
 
-[![Build Status](https://travis-ci.org/Sign2Pay/mongoid-archivable.svg)](https://travis-ci.org/Sign2Pay/mongoid-archivable) [![Gem Version](https://badge.fury.io/rb/mongoid-archivable.svg)](http://badge.fury.io/rb/mongoid-archivable)
+[![Tests](https://github.com/asgerb/mongoid-archivable/actions/workflows/test.yml/badge.svg)](https://github.com/asgerb/mongoid-archivable/actions/workflows/test.yml) [![Gem Version](https://badge.fury.io/rb/mongoid-archivable.svg)](http://badge.fury.io/rb/mongoid-archivable)
 
 Moves Mongoid documents to an archive instead of destroying them.
 
@@ -90,7 +90,6 @@ development:
       options:
         <<: *client_options
 ```
-
 
 ## Development
 

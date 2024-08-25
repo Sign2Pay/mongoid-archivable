@@ -21,7 +21,7 @@ module Mongoid
     end
 
     included do
-      mattr_accessor :archive_storage
+      class_attribute :archive_storage
       include Mongoid::Archivable::Gluten
 
       const_set('Archive', Class.new)
@@ -35,7 +35,7 @@ module Mongoid
         field :archived_at, type: Time
         field :original_id, type: String
         field :original_type, type: String
-        
+
       end
 
       before_destroy :archive
